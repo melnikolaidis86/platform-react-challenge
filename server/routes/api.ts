@@ -16,4 +16,17 @@ router.get("/cats", async (req, res) => {
     }
 });
 
+router.get("/breeds", async (req, res) => {
+    try {
+        const apiKey = process.env.CAT_API_KEY;
+        const response = await axios.get("https://api.thecatapi.com/v1/breeds", {
+            params: { api_key: apiKey }
+        });
+        res.json(response.data);
+    } catch (error) {
+        console.error("Error fetching breeds:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
 export default router;
