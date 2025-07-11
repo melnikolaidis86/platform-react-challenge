@@ -2,12 +2,13 @@ import { Router } from "express";
 import axios from "axios";
 
 const router = Router();
+const apiKey = process.env.CAT_API_KEY!;
 
 router.get("/cats", async (req, res) => {
     try {
-        const apiKey = process.env.CAT_API_KEY;
+        const page = parseInt(req.query.page as string);
         const response = await axios.get("https://api.thecatapi.com/v1/images/search", {
-            params: { limit: 10, api_key: apiKey }
+            params: { limit: 10, api_key: apiKey, page }
         });
         res.json(response.data);
     } catch (error) {
@@ -18,7 +19,6 @@ router.get("/cats", async (req, res) => {
 
 router.get("/breeds", async (req, res) => {
     try {
-        const apiKey = process.env.CAT_API_KEY;
         const response = await axios.get("https://api.thecatapi.com/v1/breeds", {
             params: { api_key: apiKey }
         });

@@ -10,6 +10,7 @@ function App() {
           </nav>
           <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/cats/:cat_id" element={<Home />} />
               <Route path="/breeds" element={<Breeds />} />
           </Routes>
       </Router>

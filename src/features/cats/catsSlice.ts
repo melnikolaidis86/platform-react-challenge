@@ -7,20 +7,24 @@ export interface CatImage {
 
 interface CatsState {
     cats: CatImage[];
-    loading: boolean;
+    page: number;
+    initialLoading: boolean;
+    loadMoreLoading: boolean;
     error: string | null;
 }
 
 const initialState: CatsState = {
     cats: [],
-    loading: false,
+    page: 0,
+    initialLoading: false,
+    loadMoreLoading: false,
     error: null,
 };
 
 export const fetchCats = createAsyncThunk(
     'cats/fetchCats',
-    async () => {
-        const response = await fetch('/api/cats');
+    async (page: number, thunkAPI) => {
+        const response = await fetch(`/api/cats?page=${page}`);
         if (!response.ok) {
             throw new Error('Failed to fetch cats');
         }
@@ -35,15 +39,19 @@ const catsSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchCats.pending, (state) => {
-                state.loading = true;
-                state.error = null;
+                const isInitialLoading = state.page === 0;
+                state.initialLoading = isInitialLoading;
+                state.loadMoreLoading = !isInitialLoading;
             })
             .addCase(fetchCats.fulfilled, (state, action: PayloadAction<CatImage[]>) => {
-                state.loading = false;
-                state.cats = action.payload;
+                state.initialLoading = false;
+                state.loadMoreLoading = false;
+                state.page += 1;
+                state.cats = [...state.cats, ...action.payload];
             })
             .addCase(fetchCats.rejected, (state, action) => {
-                state.loading = false;
+                state.initialLoading = false;
+                state.loadMoreLoading = false;
                 state.error = action.error.message || 'Failed to fetch cats';
             });
     },
