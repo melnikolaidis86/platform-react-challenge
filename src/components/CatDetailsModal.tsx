@@ -36,8 +36,12 @@ export function CatDetailsModal() {
                             })()}
                         </li>
                         <li>
-                            <strong>Temperament:</strong>{" "}
+                            <strong className="mr-1">Temperament:</strong>
                             {currentCat?.breeds?.[0]?.temperament || "Not specified"}
+                        </li>
+                        <li>
+                            <strong className="mr-1">Life Span:</strong>
+                            {currentCat?.breeds?.[0]?.life_span || "Not specified"}
                         </li>
                     </ul>
                 </div>

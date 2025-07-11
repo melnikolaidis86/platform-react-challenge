@@ -41,11 +41,11 @@ export function Modal({ isOpen, onClose, children }: ModalProps) {
                             leaveTo="opacity-0 scale-95 translate-y-2"
                             show={isOpen}
                         >
-                            <DialogPanel className="relative w-full max-w-screen-lg transform overflow-hidden rounded-xl bg-white px-6 pt-8 pb-12 shadow-xl transition-all">
+                            <DialogPanel className="relative w-full max-w-screen-lg transform overflow-hidden rounded-xl bg-white px-6 pt-12 pb-16 shadow-xl transition-all">
                                 {/* Close Button */}
                                 <button
                                     onClick={onClose}
-                                    className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition"
+                                    className="absolute top-2 right-2 lg:top-4 lg:right-4 text-gray-500 hover:text-gray-700 transition"
                                     aria-label="Close"
                                 >
                                     <CloseIcon className="w-10 h-10" />

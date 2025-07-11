@@ -1,7 +1,8 @@
 import {useDispatch, useSelector} from "react-redux";
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import type { AppDispatch, RootState } from "../app/store";
-import { fetchBreeds } from "../features/breeds/breedsSlice";
+import { fetchBreeds } from "../features/breeds";
+import { BreedsTable, SpinnerLoader } from "../components";
 
 export function Breeds() {
     const dispatch = useDispatch<AppDispatch>();
@@ -13,15 +14,18 @@ export function Breeds() {
         dispatch(fetchBreeds());
     }, [dispatch]);
 
-    if (loading) return <p>Loading cats...</p>;
+    if (loading) {
+        return <SpinnerLoader />
+    }
+
     if (error) return <p>Error: {error}</p>;
 
     return (
-        <div className="w-full max-w-[1344px] mx-auto">
-            <h1>Breeds List</h1>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-                {breeds.map(breed => <div key={breed.id}>{breed.name}</div>)}
+        <main className="w-full max-w-7xl mx-auto py-6 px-3 md:px-6">
+            <h1 className="text-2xl text-center sm:text-3xl md:text-4xl font-extrabold text-gray-600 leading-tight tracking-tight mt-3 mb-3">Breeds List</h1>
+            <div>
+                <BreedsTable breeds={breeds} />
             </div>
-        </div>
+        </main>
     );
 }

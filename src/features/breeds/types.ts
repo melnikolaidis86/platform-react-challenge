@@ -6,6 +6,7 @@ export interface Breed {
     country_code: string;
     temperament: string;
     wikipedia_url: string;
+    life_span: string;
 }
 
 export interface BreedsState {

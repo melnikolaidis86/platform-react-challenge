@@ -3,29 +3,32 @@ import { SpinnerLoader, CatCard, CatDetailsModal } from "../components";
 import { useCats } from "../hooks";
 
 export function CatList() {
-    const { initialLoading, loadMoreLoading, handleLoadMore, cats, error} = useCats();
+    const {initialLoading, loadMoreLoading, handleLoadMore, cats, error} = useCats();
 
     if (initialLoading) {
-        return <SpinnerLoader />
+        return <SpinnerLoader/>
     }
 
     if (error) return <p>Error: {error}</p>;
 
     return (
-        <div className="w-full max-w-[1344px] mx-auto">
-            <h1>Cats Gallery</h1>
+        <>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
                 {cats.map(cat => <CatCard key={cat.id} cat={cat}/>)}
             </div>
-            <button
-                onClick={handleLoadMore}
-                disabled={loadMoreLoading}
-                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-            >
-                {loadMoreLoading ? 'Loading...' : 'Load More Cats'}
-            </button>
+            <div className="flex justify-center items-center">
+                <button
+                    onClick={handleLoadMore}
+                    disabled={loadMoreLoading}
+                    className={`mt-6 px-16 py-3 text-sm font-medium rounded border transition-colors 
+                    ${ loadMoreLoading  ? "bg-gray-300 text-gray-600 border-gray-400 cursor-not-allowed" : "bg-gray-800 text-white border-gray-700 hover:bg-gray-900"} 
+                    focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-1`}
+                >
+                    {loadMoreLoading ? "Loading..." : "Load More"}
+                </button>
+            </div>
 
-            <CatDetailsModal />
-        </div>
+            <CatDetailsModal/>
+        </>
     );
 }
