@@ -1,11 +1,14 @@
+import React, { Fragment } from "react";
 import { Dialog, DialogPanel, Transition } from "@headlessui/react";
-import { Fragment } from "react";
+import { IoIosClose } from "react-icons/io";
 
 interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
     children: React.ReactNode;
 }
+
+const CloseIcon = IoIosClose as React.FC<React.SVGProps<SVGSVGElement>>;
 
 export function Modal({ isOpen, onClose, children }: ModalProps) {
     return (
@@ -38,14 +41,17 @@ export function Modal({ isOpen, onClose, children }: ModalProps) {
                             leaveTo="opacity-0 scale-95 translate-y-2"
                             show={isOpen}
                         >
-                            <DialogPanel className="w-full max-w-md transform overflow-hidden rounded-xl bg-white p-6 shadow-xl transition-all">
-                                {children}
+                            <DialogPanel className="relative w-full max-w-screen-lg transform overflow-hidden rounded-xl bg-white px-6 pt-8 pb-12 shadow-xl transition-all">
+                                {/* Close Button */}
                                 <button
                                     onClick={onClose}
-                                    className="mt-4 text-sm text-gray-500 hover:text-gray-700"
+                                    className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition"
+                                    aria-label="Close"
                                 >
-                                    Close
+                                    <CloseIcon className="w-10 h-10" />
                                 </button>
+
+                                {children}
                             </DialogPanel>
                         </Transition>
                     </div>

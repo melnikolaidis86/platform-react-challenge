@@ -1,15 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
-
-export interface Breed {
-    id: string;
-    name: string;
-}
-
-interface BreedsState {
-    breeds: Breed[];
-    loading: boolean;
-    error: string | null;
-}
+import { Breed, BreedsState } from "./types";
 
 const initialState: BreedsState = {
     breeds: [],

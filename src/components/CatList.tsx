@@ -1,33 +1,9 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
-import type { AppDispatch, RootState } from "../app/store";
-import { fetchCats } from "../features/cats/catsSlice";
-import { SpinnerLoader, CatCard, Modal } from "../components";
+import React from "react";
+import { SpinnerLoader, CatCard, CatDetailsModal } from "../components";
+import { useCats } from "../hooks";
 
 export function CatList() {
-    const dispatch = useDispatch<AppDispatch>();
-    const cats = useSelector((state: RootState) => state.cats.cats);
-    const page = useSelector((state: RootState) => state.cats.page);
-    const initialLoading = useSelector((state: RootState) => state.cats.initialLoading);
-    const loadMoreLoading = useSelector((state: RootState) => state.cats.loadMoreLoading);
-    const error = useSelector((state: RootState) => state.cats.error);
-
-    const { cat_id } = useParams();
-    const navigate = useNavigate();
-    const isModalOpen = Boolean(cat_id);
-
-    const handleLoadMore = () => {
-        dispatch(fetchCats(page + 1));
-    };
-
-    const handleClose = () => {
-        navigate("/", { replace: true }); // close modal
-    };
-
-    useEffect(() => {
-        dispatch(fetchCats(0));
-    }, [dispatch]);
+    const { initialLoading, loadMoreLoading, handleLoadMore, cats, error} = useCats();
 
     if (initialLoading) {
         return <SpinnerLoader />
@@ -49,10 +25,7 @@ export function CatList() {
                 {loadMoreLoading ? 'Loading...' : 'Load More Cats'}
             </button>
 
-            <Modal isOpen={isModalOpen} onClose={handleClose}>
-                <h2 className="text-xl font-semibold mb-2">Cat Details</h2>
-                <p>You're viewing details for cat ID: {cat_id}</p>
-            </Modal>
+            <CatDetailsModal />
         </div>
     );
 }

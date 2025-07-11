@@ -1,20 +1,9 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
-
-export interface CatImage {
-    id: string;
-    url: string;
-}
-
-interface CatsState {
-    cats: CatImage[];
-    page: number;
-    initialLoading: boolean;
-    loadMoreLoading: boolean;
-    error: string | null;
-}
+import { CatsState, CatImage, CatImageWithDetails } from "./types";
 
 const initialState: CatsState = {
     cats: [],
+    currentCat: null,
     page: 0,
     initialLoading: false,
     loadMoreLoading: false,
@@ -32,10 +21,25 @@ export const fetchCats = createAsyncThunk(
     }
 );
 
+export const fetchCatById = createAsyncThunk(
+    'cats/fetchCatById',
+    async (catId: string, thunkAPI) => {
+        const response = await fetch(`/api/cats/${catId}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch cat with id ' + catId);
+        }
+        return (await response.json()) as CatImageWithDetails;
+    }
+)
+
 const catsSlice = createSlice({
     name: 'cats',
     initialState,
-    reducers: {},
+    reducers: {
+        resetCurrentCat(state) {
+            state.currentCat = null
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchCats.pending, (state) => {
@@ -53,8 +57,15 @@ const catsSlice = createSlice({
                 state.initialLoading = false;
                 state.loadMoreLoading = false;
                 state.error = action.error.message || 'Failed to fetch cats';
-            });
+            })
+            .addCase(fetchCatById.fulfilled, (state, action: PayloadAction<CatImageWithDetails>) => {
+                state.currentCat = action.payload
+            })
+            .addCase(fetchCatById.rejected, (state, action) => {
+                state.error = action.error.message || 'Failed to fetch cat by current ID';
+            })
     },
 });
 
+export const { resetCurrentCat } = catsSlice.actions;
 export default catsSlice.reducer;

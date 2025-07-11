@@ -8,11 +8,24 @@ router.get("/cats", async (req, res) => {
     try {
         const page = parseInt(req.query.page as string);
         const response = await axios.get("https://api.thecatapi.com/v1/images/search", {
-            params: { limit: 10, api_key: apiKey, page }
+            params: { limit: 10, api_key: apiKey, page, has_breeds: '1' } // Display cats with breed information only
         });
         res.json(response.data);
     } catch (error) {
         console.error("Error fetching cats:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+router.get("/cats/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const response = await axios.get(`https://api.thecatapi.com/v1/images/${id}`, {
+            params: { api_key: apiKey }
+        });
+        res.json(response.data);
+    } catch (error) {
+        console.error("Error fetching cat details:", error);
         res.status(500).json({ error: "Internal server error" });
     }
 });
