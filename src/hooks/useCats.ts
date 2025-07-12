@@ -13,7 +13,7 @@ export const useCats = () => {
 
 
     const handleLoadMore = () => {
-        dispatch(fetchCats(page + 1));
+        dispatch(fetchCats(page));
     };
 
     useEffect(() => {
