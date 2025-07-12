@@ -4,6 +4,7 @@ export * from './CatCard';
 export * from './CatDetailsModal';
 export * from './CatList';
 export * from './FavouriteButton';
+export * from './FavouritesList';
 export * from './Footer';
 export * from './Modal';
 export * from './NavBar';

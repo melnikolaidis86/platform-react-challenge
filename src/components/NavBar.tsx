@@ -26,7 +26,7 @@ export function Navbar() {
                     <div className="hidden md:flex items-center space-x-6">
                         <NavLink href="/" icon={<FatCatIcon />} label="Cats"/>
                         <NavLink href="/breeds" icon={<FatPawIcon />} label="Breeds"/>
-                        <NavLink href="/favorites" icon={<FaHeartIcon />} label="My Favorites"/>
+                        <NavLink href="/favourites" icon={<FaHeartIcon />} label="My Favorites"/>
                     </div>
 
                     <button
@@ -42,7 +42,7 @@ export function Navbar() {
                     <div className="md:hidden mt-2 space-y-2">
                         <NavLink href="/" icon={<FatCatIcon />} label="Cats" mobile/>
                         <NavLink href="/breeds" icon={<FatPawIcon />} label="Breeds" mobile/>
-                        <NavLink href="/favorites" icon={<FaHeartIcon />} label="My Favorites" mobile/>
+                        <NavLink href="/favourites" icon={<FaHeartIcon />} label="My Favourites" mobile/>
                     </div>
                 )}
             </div>

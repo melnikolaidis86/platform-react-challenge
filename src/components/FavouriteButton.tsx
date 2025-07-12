@@ -1,38 +1,11 @@
-import React, { useState, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addFavourite, fetchFavourites, removeFavourite } from "../features/favourites";
+import React from "react";
+import { useFavourites } from "../hooks";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import type { AppDispatch, RootState } from "../app/store";
 
 export function FavouriteButton({ catId }: { catId: string }) {
-    const [animate, setAnimate] = useState(false);
-    const dispatch = useDispatch<AppDispatch>();
-    const favourites = useSelector((state: RootState) => state.favourites.favourites);
+    const { toggleFavourite, animate, isFavourite } = useFavourites(catId);
     const AiFillHeartIcon = AiFillHeart as React.FC<React.SVGProps<SVGSVGElement>>;
     const AiOutlineHeartIcon = AiOutlineHeart as React.FC<React.SVGProps<SVGSVGElement>>;
-
-    const toggleFavourite = async (e: React.MouseEvent) => {
-        e.preventDefault();
-        try {
-            if (isFavourite) {
-                const currentFavourite = favourites.find((favourite) => favourite.image_id === catId);
-                if (currentFavourite?.id) {
-                    await dispatch(removeFavourite(currentFavourite.id)).unwrap();
-                }
-            } else {
-                await dispatch(addFavourite(catId!)).unwrap();
-            }
-            dispatch(fetchFavourites(0));
-            setAnimate(true);
-            setTimeout(() => setAnimate(false), 300);
-        } catch (err) {
-            console.error("Failed to add favourite:", err);
-        }
-    };
-
-    const isFavourite = useMemo(() => {
-        return !!favourites.find((element) => element.image_id === catId);
-    }, [favourites, catId]);
 
     return (
         <button

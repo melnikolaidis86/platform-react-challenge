@@ -1,0 +1,53 @@
+import { Link } from "react-router-dom";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import { useFavourites } from "../hooks";
+import { SpinnerLoader } from "./SpinnerLoader";
+import React from "react";
+
+dayjs.extend(relativeTime);
+
+export function FavouritesList() {
+    const { loading, uniqueFavourites, handleRemove } = useFavourites();
+
+    if (loading) {
+        return <SpinnerLoader />
+    }
+
+    if (uniqueFavourites.length === 0) {
+        return <p className="text-gray-500 mt-12 text-center">No favourites yet.</p>;
+    }
+
+    return (
+        <div className="space-y-4 mt-6">
+            {uniqueFavourites.map((fav) => (
+                <div
+                    key={fav.id}
+                    className="flex flex-col sm:flex-row items-center bg-white shadow rounded-xl p-4 gap-4 hover:shadow-md transition"
+                >
+                    <Link to={`/cats/${fav.image_id}`}>
+                    <img
+                        src={fav.image?.url}
+                        alt="Cat"
+                        className="w-80 h-80 sm:w-32 sm:h-32 object-cover rounded-lg"
+                    />
+                    </Link>
+                    <div className="flex-1 w-80 mx-auto sm:w-full">
+                        <p className="text-gray-800 font-semibold">Meow! you have been adoring ♡ this kitty since</p>
+                        <p className="text-sm text-gray-500">
+                            {dayjs(fav.created_at).fromNow()}
+                        </p>
+                    </div>
+                    <button
+                        onClick={() => handleRemove(fav.id)}
+                        className="text-red-500 hover:text-red-700 font-medium"
+                    >
+                        Remove
+                    </button>
+                </div>
+            ))}
+        </div>
+    );
+};
+
+export default FavouritesList;

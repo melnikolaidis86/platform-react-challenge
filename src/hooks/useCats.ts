@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../app/store";
 import { fetchCats } from "../features/cats";
-import { fetchFavourites } from "../features/favourites";
 import { useEffect } from "react";
 
 export const useCats = () => {
@@ -19,7 +18,6 @@ export const useCats = () => {
 
     useEffect(() => {
         dispatch(fetchCats(0));
-        dispatch(fetchFavourites(0)); // Fetch favourites on initial load
     }, [dispatch]);
 
     return {

@@ -54,16 +54,7 @@ const favouritesSlice = createSlice({
             })
             .addCase(fetchFavourites.fulfilled, (state, action: PayloadAction<Favourite[]>) => {
                 state.loading = false;
-                // Normalize: Keep only the latest favourite per image_id
-                const latestFavourites = new Map<string, Favourite>();
-
-                action.payload.forEach(fav => {
-                    const existing = latestFavourites.get(fav.image_id);
-                    if (!existing || new Date(fav.created_at) > new Date(existing.created_at)) {
-                        latestFavourites.set(fav.image_id, fav);
-                    }
-                });
-                state.favourites = Array.from(latestFavourites.values());
+                state.favourites = action.payload;
             })
             .addCase(fetchFavourites.rejected, (state, action) => {
                 state.loading = false;
