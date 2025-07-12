@@ -38,7 +38,11 @@ const catsSlice = createSlice({
     reducers: {
         resetCurrentCat(state) {
             state.currentCat = null
-        }
+        },
+        resetCats(state) {
+            state.cats = [];
+            state.page = 0;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -67,5 +71,5 @@ const catsSlice = createSlice({
     },
 });
 
-export const { resetCurrentCat } = catsSlice.actions;
+export const { resetCurrentCat, resetCats } = catsSlice.actions;
 export default catsSlice.reducer;

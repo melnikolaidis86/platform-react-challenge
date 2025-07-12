@@ -1,4 +1,5 @@
 export * from './BreedsTable';
+export * from './BreedDetailsModal';
 export * from './CatCard';
 export * from './CatDetailsModal';
 export * from './CatList';

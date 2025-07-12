@@ -1,18 +1,9 @@
-import {useDispatch, useSelector} from "react-redux";
-import React, { useEffect } from "react";
-import type { AppDispatch, RootState } from "../app/store";
-import { fetchBreeds } from "../features/breeds";
+import React from "react";
 import { BreedsTable, SpinnerLoader } from "../components";
+import { useBreeds } from "../hooks";
 
 export function Breeds() {
-    const dispatch = useDispatch<AppDispatch>();
-    const breeds = useSelector((state: RootState) => state.breeds.breeds);
-    const loading = useSelector((state: RootState) => state.breeds.loading);
-    const error = useSelector((state: RootState) => state.breeds.error);
-
-    useEffect(() => {
-        dispatch(fetchBreeds());
-    }, [dispatch]);
+    const { breeds, loading, error } = useBreeds();
 
     if (loading) {
         return <SpinnerLoader />
