@@ -55,4 +55,71 @@ router.get("/breeds/:id", async (req, res) => {
     }
 });
 
+router.get("/favourites", async (req, res) => {
+    try {
+        const page = parseInt(req.query.page as string);
+        const response = await axios.get("https://api.thecatapi.com/v1/favourites", {
+            params: { limit: 10, page },
+            headers: {
+                "x-api-key": apiKey
+            }
+        });
+
+        res.json(response.data);
+    } catch (error) {
+        console.error("Error fetching favourites:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+router.post("/favourites", async (req, res) => {
+    try {
+        const { image_id } = req.body;
+
+        if (!image_id) {
+            return res.status(400).json({ error: "image_id is required" });
+        }
+
+        const response = await axios.post(
+            "https://api.thecatapi.com/v1/favourites",
+            { image_id },
+            {
+                headers: {
+                    "x-api-key": apiKey,
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+
+        res.status(201).json(response.data);
+    } catch (error) {
+        console.error("Error adding favourite:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+router.delete("/favourites/:image_id", async (req, res) => {
+    try {
+        const { image_id } = req.params;
+
+        if (!image_id) {
+            return res.status(400).json({ error: "favourite_id is required" });
+        }
+
+        const response = await axios.delete(
+            `https://api.thecatapi.com/v1/favourites/${image_id}`,
+            {
+                headers: {
+                    "x-api-key": apiKey
+                }
+            }
+        );
+
+        res.status(200).json({ message: "Favourite deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting favourite:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
 export default router;

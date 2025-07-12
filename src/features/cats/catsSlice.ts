@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { CatsState, CatImage, CatImageWithDetails } from "./types";
+import axios from "axios";
 
 const initialState: CatsState = {
     cats: [],
@@ -13,22 +14,22 @@ const initialState: CatsState = {
 export const fetchCats = createAsyncThunk(
     'cats/fetchCats',
     async (page: number, thunkAPI) => {
-        const response = await fetch(`/api/cats?page=${page}`);
-        if (!response.ok) {
+        const response = await axios.get(`/api/cats?page=${page}`);
+        if (!response?.data) {
             throw new Error('Failed to fetch cats');
         }
-        return (await response.json()) as CatImage[];
+        return (await response.data) as CatImage[];
     }
 );
 
 export const fetchCatById = createAsyncThunk(
     'cats/fetchCatById',
     async (catId: string, thunkAPI) => {
-        const response = await fetch(`/api/cats/${catId}`);
-        if (!response.ok) {
+        const response = await axios.get(`/api/cats/${catId}`);
+        if (!response?.data) {
             throw new Error('Failed to fetch cat with id ' + catId);
         }
-        return (await response.json()) as CatImageWithDetails;
+        return (await response.data) as CatImageWithDetails;
     }
 )
 

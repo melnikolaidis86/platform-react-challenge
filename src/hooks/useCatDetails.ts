@@ -22,7 +22,7 @@ export const useCatDetails = () => {
         if (!!cat_id) {
             dispatch(fetchCatById(cat_id))
         }
-    }, [cat_id]);
+    }, [cat_id, dispatch]);
 
     return {
         currentCat,

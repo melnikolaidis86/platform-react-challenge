@@ -1,6 +1,6 @@
 import React from "react";
 import * as Flags from "country-flag-icons/react/3x2";
-import { Modal } from "./Modal";
+import { Modal, FavouriteButton } from "../components";
 import { useCatDetails } from "../hooks";
 
 export function CatDetailsModal() {
@@ -9,12 +9,14 @@ export function CatDetailsModal() {
     return (
         <Modal isOpen={isModalOpen} onClose={handleClose}>
             <div className="flex flex-col md:flex-row gap-6">
-                <div className="md:w-1/2 w-full">
+                <div className="md:w-1/2 w-full relative">
                     <img
                         src={currentCat?.url}
                         alt={currentCat?.breeds?.[0]?.name || "Cat image"}
                         className="rounded-lg object-cover w-full h-auto max-h-96"
                     />
+
+                    {currentCat?.id && <FavouriteButton catId={currentCat.id} />}
                 </div>
                 <div className="md:w-1/2 w-full">
                     <h2 className="text-2xl font-semibold mb-2">

@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { Breed, BreedImage, BreedsState } from "./types";
+import axios from "axios";
 
 const initialState: BreedsState = {
     breeds: [],
@@ -12,22 +13,22 @@ const initialState: BreedsState = {
 export const fetchBreeds = createAsyncThunk(
     'breeds/fetchBreeds',
     async () => {
-        const response = await fetch('/api/breeds');
-        if (!response.ok) {
+        const response = await axios.get('/api/breeds');
+        if (!response?.data) {
             throw new Error('Failed to fetch cats');
         }
-        return (await response.json()) as Breed[];
+        return (await response.data) as Breed[];
     }
 );
 
 export const fetchBreedImages = createAsyncThunk(
     'breeds/fetchBreedImages',
     async (breedId: string, thunkAPI) => {
-        const response = await fetch(`/api/breeds/${breedId}`);
-        if (!response.ok) {
+        const response = await axios.get(`/api/breeds/${breedId}`);
+        if (!response?.data) {
             throw new Error('Failed to breed images');
         }
-        return (await response.json()) as BreedImage[];
+        return (await response.data) as BreedImage[];
     }
 );
 

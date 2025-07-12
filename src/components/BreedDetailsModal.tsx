@@ -41,7 +41,7 @@ export function BreedDetailsModal() {
                                     <img
                                         key={id}
                                         src={url}
-                                        alt={`${currentBreed?.name} image ${id}`}
+                                        alt={currentBreed?.name || 'cute cat'}
                                         className="rounded-lg object-cover w-full h-40"
                                     />
                                 </Link>
