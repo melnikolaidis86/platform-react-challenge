@@ -1,13 +1,21 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../app/store";
-import {addFavourite, fetchFavourites, removeFavourite} from "../features/favourites";
+import { addFavourite, fetchFavourites, removeFavourite } from "../features/favourites";
+import { useUser } from "../app/userContext";
 
 export const useFavourites = (catId?: string) => {
     const [animate, setAnimate] = useState(false);
     const dispatch = useDispatch<AppDispatch>();
     const favourites = useSelector((state: RootState) => state.favourites.favourites);
     const loading = useSelector((state: RootState) => state.favourites.loading);
+    const { userId } = useUser();
+
+    useEffect(() => {
+        if (userId) {
+            dispatch(fetchFavourites(userId));
+        }
+    }, [userId, dispatch]);
 
     // Normalize: Keep latest favourites per image_id
     const uniqueFavourites = useMemo(() => {
@@ -34,9 +42,9 @@ export const useFavourites = (catId?: string) => {
                     await dispatch(removeFavourite(currentFavourite.id)).unwrap();
                 }
             } else {
-                await dispatch(addFavourite(catId!)).unwrap();
+                await dispatch(addFavourite({ image_id: catId!, sub_id: userId })).unwrap();
             }
-            dispatch(fetchFavourites(0));
+            dispatch(fetchFavourites(userId!));
             setAnimate(true);
             setTimeout(() => setAnimate(false), 300);
         } catch (err) {
@@ -46,7 +54,7 @@ export const useFavourites = (catId?: string) => {
 
     const handleRemove = async (favourite_id: string) => {
         await dispatch(removeFavourite(favourite_id)).unwrap();
-        dispatch(fetchFavourites(0));
+        dispatch(fetchFavourites(userId!));
     };
 
     return {

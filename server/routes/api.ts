@@ -74,15 +74,14 @@ router.get("/favourites", async (req, res) => {
 
 router.post("/favourites", async (req, res) => {
     try {
-        const { image_id } = req.body;
-
+        const { image_id, sub_id } = req.body;
         if (!image_id) {
             return res.status(400).json({ error: "image_id is required" });
         }
 
         const response = await axios.post(
             "https://api.thecatapi.com/v1/favourites",
-            { image_id },
+            { image_id, sub_id },
             {
                 headers: {
                     "x-api-key": apiKey,
@@ -101,7 +100,6 @@ router.post("/favourites", async (req, res) => {
 router.delete("/favourites/:image_id", async (req, res) => {
     try {
         const { image_id } = req.params;
-
         if (!image_id) {
             return res.status(400).json({ error: "favourite_id is required" });
         }

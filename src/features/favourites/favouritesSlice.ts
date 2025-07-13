@@ -10,8 +10,8 @@ const initialState: FavouritesState = {
 
 export const fetchFavourites = createAsyncThunk(
     'favourites/fetchFavourites',
-    async (page: number, thunkAPI) => {
-        const response = await axios.get(`/api/favourites?page=${page}`);
+    async (sub_id: string, thunkAPI) => {
+        const response = await axios.get(`/api/favourites?sub_id=${sub_id}`);
         if (!response?.data) {
             throw new Error('Failed to fetch cats');
         }
@@ -21,9 +21,9 @@ export const fetchFavourites = createAsyncThunk(
 
 export const addFavourite = createAsyncThunk(
     'favourites/addFavourite',
-    async (image_id: string, { rejectWithValue }) => {
+    async ({ image_id, sub_id }: { image_id: string; sub_id: string | null }, { rejectWithValue }) => {
         try {
-            const response = await axios.post("/api/favourites", { image_id });
+            const response = await axios.post("/api/favourites", { image_id, sub_id });
             return response.data;
         } catch (err: any) {
             return rejectWithValue(err.response?.data || err.message);
