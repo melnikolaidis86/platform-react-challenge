@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../app/store";
 import { addFavourite, fetchFavourites, removeFavourite, resetFavouritesLimitReached } from "../features/favourites";
-import { useUserContext } from "../app/userContext";
+import { useUserContext } from "../context/userContext";
 
 export const useFavourites = (catId?: string) => {
     const [animate, setAnimate] = useState(false);

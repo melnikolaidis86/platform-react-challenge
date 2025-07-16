@@ -20,6 +20,9 @@ export function FavouritesList() {
 
     return (
         <div className="space-y-4 mt-6">
+            <div className="text-left text-sm sm:text-base font-medium text-gray-600 mb-2">
+                {`You currently have ${uniqueFavourites.length} favourite${uniqueFavourites.length !== 1 && 's'}`}
+            </div>
             {uniqueFavourites.map((fav) => (
                 <div
                     key={fav.id}
@@ -33,7 +36,7 @@ export function FavouritesList() {
                     />
                     </Link>
                     <div className="flex-1 w-80 mx-auto sm:w-full">
-                        <p className="text-gray-800 font-semibold">Meow! you have been adoring ♡ this kitty since</p>
+                        <p className="text-gray-800 font-semibold">You have been adoring ♡ this kitty since</p>
                         <p className="text-sm text-gray-500">
                             {dayjs(fav.created_at).fromNow()}
                         </p>

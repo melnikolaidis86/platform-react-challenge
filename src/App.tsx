@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Home } from "./routes/Home";
 import { Breeds } from "./routes/Breeds";
 import { Favourites } from "./routes/Favourites";
-import { UserProvider } from "./app/userContext";
+import { UserProvider } from "./context/userContext";
 import { Footer, Navbar, PopupMessage } from "./components";
 import { useFavourites } from "./hooks";
 

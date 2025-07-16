@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../app/store";
-import { useUserContext } from "../app/userContext";
+import { useUserContext } from "../context/userContext";
 import { fetchFavourites } from "../features/favourites";
 import { CatList } from "../components/";
 
