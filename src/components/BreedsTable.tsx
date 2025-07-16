@@ -21,8 +21,8 @@ export function BreedsTable({ breeds }: { breeds: Breed[] }) {
                     </thead>
                     <tbody className="divide-y divide-gray-100">
                     {breeds.map((breed) => {
-                        const Code = breed.country_code.toUpperCase();
-                        const Flag = (Flags as Record<string, React.FC<React.SVGProps<SVGSVGElement>>>)[Code];
+                        const Code = breed?.country_code?.toUpperCase() || null;
+                        const Flag = Code && (Flags as Record<string, React.FC<React.SVGProps<SVGSVGElement>>>)?.[Code];
 
                         return (
                             <tr key={breed.id} className="hover:bg-gray-50 transition cursor-pointer" onClick={() => handleSelectBreed(breed)}>

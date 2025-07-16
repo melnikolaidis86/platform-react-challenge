@@ -6,7 +6,7 @@ const apiKey = process.env.CAT_API_KEY!;
 
 router.get("/cats", async (req, res) => {
     try {
-        const page = parseInt(req.query.page as string);
+        const page = Number.parseInt(req.query.page as string ?? '0');
         const response = await axios.get("https://api.thecatapi.com/v1/images/search", {
             params: { limit: 10, api_key: apiKey, page, has_breeds: '1' } // Display cats with breed information only
         });
@@ -98,15 +98,15 @@ router.post("/favourites", async (req, res) => {
     }
 });
 
-router.delete("/favourites/:image_id", async (req, res) => {
+router.delete("/favourites/:favourite_id", async (req, res) => {
     try {
-        const { image_id } = req.params;
-        if (!image_id) {
+        const { favourite_id } = req.params;
+        if (!favourite_id) {
             return res.status(400).json({ error: "favourite_id is required" });
         }
 
         const response = await axios.delete(
-            `https://api.thecatapi.com/v1/favourites/${image_id}`,
+            `https://api.thecatapi.com/v1/favourites/${favourite_id}`,
             {
                 headers: {
                     "x-api-key": apiKey

@@ -15,7 +15,7 @@ export const fetchBreeds = createAsyncThunk(
     async () => {
         const response = await axios.get('/api/breeds');
         if (!response?.data) {
-            throw new Error('Failed to fetch cats');
+            throw new Error('Failed to fetch breeds');
         }
         return (await response.data) as Breed[];
     }
