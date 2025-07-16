@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 import { IoIosClose } from "react-icons/io";
-import { resetFavouritesLimitReached } from "../features/favourites";
 
 type PopupProps = {
     message: string;
@@ -18,7 +17,6 @@ export function PopupMessage({ message, type = "info", onClose }: PopupProps) {
     useEffect(() => {
         const timer = setTimeout(() => {
             setVisible(false);
-            resetFavouritesLimitReached();
             setTimeout(onClose, 300); // wait for transition to complete
         }, 4000);
         return () => clearTimeout(timer);
@@ -26,7 +24,6 @@ export function PopupMessage({ message, type = "info", onClose }: PopupProps) {
 
     const handleClose = () => {
         setVisible(false);
-        resetFavouritesLimitReached();
         setTimeout(onClose, 300); // match the transition duration
     };
 

@@ -37,9 +37,8 @@ export function BreedDetailsModal() {
                     {currentBreedImages.length ? (
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                             {currentBreedImages.map(({ url, id }) => (
-                                <Link to={`/cats/${id}`}>
+                                <Link key={id} to={`/cats/${id}`}>
                                     <img
-                                        key={id}
                                         src={url}
                                         alt={currentBreed?.name || 'cute cat'}
                                         className="rounded-lg object-cover w-full h-40"

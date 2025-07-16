@@ -32,7 +32,7 @@ export const fetchBreedImages = createAsyncThunk(
     }
 );
 
-const catsSlice = createSlice({
+const breedsSlice = createSlice({
     name: 'breeds',
     initialState,
     reducers: {
@@ -64,5 +64,5 @@ const catsSlice = createSlice({
     },
 });
 
-export const { setCurrentBreed } = catsSlice.actions;
-export default catsSlice.reducer;
+export const { setCurrentBreed } = breedsSlice.actions;
+export default breedsSlice.reducer;

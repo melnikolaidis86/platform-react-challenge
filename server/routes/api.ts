@@ -57,7 +57,7 @@ router.get("/breeds/:id", async (req, res) => {
 
 router.get("/favourites", async (req, res) => {
     try {
-        const page = parseInt(req.query.page as string);
+        const page = Number.parseInt(req.query.page as string ?? '0');
         const limit = Number.parseInt(process.env.MAX_FAVOURITES ?? '10');
         const response = await axios.get("https://api.thecatapi.com/v1/favourites", {
             params: { limit, page },
