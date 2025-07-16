@@ -1,10 +1,15 @@
 import React from "react";
 import * as Flags from "country-flag-icons/react/3x2";
-import { Modal, FavouriteButton } from "../components";
-import { useCatDetails } from "../hooks";
+import { Modal, FavouriteButton, BarRating } from "../components";
+import { useCatDetails, useFavourites } from "../hooks";
+import { FiHeart as HeartOutline } from "react-icons/fi";
+import { FaHeart as HeartFilled } from "react-icons/fa";
 
 export function CatDetailsModal() {
     const { isModalOpen, currentCat, handleClose } = useCatDetails();
+    const { toggleFavourite, isFavourite } = useFavourites(currentCat?.id);
+    const HeartFilledIcon = HeartFilled as React.FC<React.SVGProps<SVGSVGElement>>;
+    const HeartOutlineIcon = HeartOutline as React.FC<React.SVGProps<SVGSVGElement>>;
 
     return (
         <Modal isOpen={isModalOpen} onClose={handleClose}>
@@ -45,7 +50,41 @@ export function CatDetailsModal() {
                             <strong className="mr-1">Life Span:</strong>
                             {currentCat?.breeds?.[0]?.life_span || "Not specified"}
                         </li>
+                        <li className="flex items-center">
+                            <strong className="mr-1">Affection:</strong>
+                            <BarRating score={currentCat?.breeds?.[0]?.affection_level || 0} />
+                        </li>
+                        <li className="flex items-center">
+                            <strong className="mr-1">Intelligence:</strong>
+                            <BarRating score={currentCat?.breeds?.[0]?.intelligence || 0} />
+                        </li>
+                        <li className="flex items-center">
+                            <strong className="mr-1">Adaptability:</strong>
+                            <BarRating score={currentCat?.breeds?.[0]?.adaptability || 0} />
+                        </li>
+                        <li className="flex items-center">
+                            <strong className="mr-1">Stranger Friendly:</strong>
+                            <BarRating score={currentCat?.breeds?.[0]?.stranger_friendly || 0} />
+                        </li>
                     </ul>
+                    <div className="mt-6">
+                        <button
+                            onClick={toggleFavourite}
+                            className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-red-500 hover:bg-gray-100 border border-gray-300 rounded-md transition"
+                        >
+                            {isFavourite ? (
+                                <>
+                                    <HeartFilledIcon className="text-red-500" />
+                                    Remove from Favourites
+                                </>
+                            ) : (
+                                <>
+                                    <HeartOutlineIcon />
+                                    Add to Favourites
+                                </>
+                            )}
+                        </button>
+                    </div>
                 </div>
             </div>
         </Modal>

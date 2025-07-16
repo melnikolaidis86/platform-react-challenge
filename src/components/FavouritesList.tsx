@@ -11,7 +11,7 @@ export function FavouritesList() {
     const { loading, uniqueFavourites, handleRemove } = useFavourites();
 
     if (loading) {
-        return <SpinnerLoader />
+        return <SpinnerLoader />;
     }
 
     if (uniqueFavourites.length === 0) {
@@ -21,36 +21,43 @@ export function FavouritesList() {
     return (
         <div className="space-y-4 mt-6">
             <div className="text-left text-sm sm:text-base font-medium text-gray-600 mb-2">
-                {`You currently have ${uniqueFavourites.length} favourite${uniqueFavourites.length !== 1 && 's'}`}
+                {`You currently have ${uniqueFavourites.length} favourite${uniqueFavourites.length !== 1 ? 's' : ''}`}
             </div>
             {uniqueFavourites.map((fav) => (
-                <div
+                <Link
                     key={fav.id}
-                    className="flex flex-col sm:flex-row items-center bg-white shadow rounded-xl p-4 gap-4 hover:shadow-md transition"
+                    to={`/cats/${fav.image_id}`}
+                    className="block"
                 >
-                    <Link to={`/cats/${fav.image_id}`}>
-                    <img
-                        src={fav.image?.url}
-                        alt="Cat"
-                        className="w-80 h-80 sm:w-32 sm:h-32 object-cover rounded-lg"
-                    />
-                    </Link>
-                    <div className="flex-1 w-80 mx-auto sm:w-full">
-                        <p className="text-gray-800 font-semibold">You have been adoring ♡ this kitty since</p>
-                        <p className="text-sm text-gray-500">
-                            {dayjs(fav.created_at).fromNow()}
-                        </p>
-                    </div>
-                    <button
-                        onClick={() => handleRemove(fav.id)}
-                        className="text-red-500 hover:text-red-700 font-medium"
+                    <div
+                        className="flex flex-col sm:flex-row items-center bg-white shadow rounded-xl p-4 gap-4 hover:shadow-md transition relative"
                     >
-                        Remove
-                    </button>
-                </div>
+                        <img
+                            src={fav.image?.url}
+                            alt="Cat"
+                            className="w-80 h-80 sm:w-32 sm:h-32 object-cover rounded-lg"
+                        />
+                        <div className="flex-1 w-80 mx-auto sm:w-full">
+                            <p className="text-gray-800 font-semibold">You have been adoring ♡ this kitty since</p>
+                            <p className="text-sm text-gray-500">
+                                {dayjs(fav.created_at).fromNow()}
+                            </p>
+                        </div>
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                handleRemove(fav.id);
+                            }}
+                            className="text-red-500 hover:text-red-700 p-3 font-medium z-10"
+                        >
+                            Remove
+                        </button>
+                    </div>
+                </Link>
             ))}
         </div>
     );
-};
+}
 
 export default FavouritesList;
