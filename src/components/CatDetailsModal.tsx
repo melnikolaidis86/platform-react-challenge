@@ -13,7 +13,7 @@ export function CatDetailsModal() {
 
     return (
         <Modal isOpen={isModalOpen} onClose={handleClose}>
-            <div className="flex flex-col md:flex-row gap-6">
+            <div data-test-id="cat-details-modal" className="flex flex-col md:flex-row gap-6">
                 <div className="md:w-1/2 w-full relative">
                     <img
                         src={currentCat?.url}
@@ -24,10 +24,10 @@ export function CatDetailsModal() {
                     {currentCat?.id && <FavouriteButton catId={currentCat.id} />}
                 </div>
                 <div className="md:w-1/2 w-full">
-                    <h2 className="text-2xl font-semibold mb-2">
+                    <h2 data-test-id="cat-name" className="text-2xl font-semibold mb-2">
                         {currentCat?.breeds?.[0]?.name || "Cat Details"}
                     </h2>
-                    <p className="text-gray-700 mb-4">
+                    <p data-test-id="cat-description" className="text-gray-700 mb-4">
                         {currentCat?.breeds?.[0]?.description || "No description available."}
                     </p>
                     <ul className="text-sm text-gray-600 space-y-1">
