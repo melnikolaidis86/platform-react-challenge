@@ -3,7 +3,7 @@ import { RootState } from "../../app/store";
 import type { Favourite, FavouritesState } from "./types";
 import axios from 'axios';
 
-// This variable MUST match with the MAX_FAVOURITES in api
+// This variable MUST be equal or lesser than MAX_FAVOURITES in api
 export const maxFavourites = Number.parseInt(process.env.REACT_APP_MAX_FAVOURITES ?? "10");
 
 const initialState: FavouritesState = {
