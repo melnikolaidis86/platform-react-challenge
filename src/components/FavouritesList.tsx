@@ -2,17 +2,18 @@ import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useFavourites } from "../hooks";
-import { SpinnerLoader } from "./SpinnerLoader";
-import React from "react";
+import { SpinnerLoader, ErrorMessage } from "../components";
 
 dayjs.extend(relativeTime);
 
 export function FavouritesList() {
-    const { loading, uniqueFavourites, handleRemove } = useFavourites();
+    const { loading, error, uniqueFavourites, handleRemove } = useFavourites();
 
     if (loading) {
         return <SpinnerLoader />;
     }
+
+    if (error) return <ErrorMessage message={error} />;
 
     if (uniqueFavourites.length === 0) {
         return <p className="text-gray-500 mt-12 text-center">No favourites yet.</p>;

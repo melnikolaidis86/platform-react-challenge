@@ -4,6 +4,7 @@ export * from './BreedDetailsModal';
 export * from './CatCard';
 export * from './CatDetailsModal';
 export * from './CatList';
+export * from './ErrorMessage';
 export * from './FavouriteButton';
 export * from './FavouritesList';
 export * from './Footer';

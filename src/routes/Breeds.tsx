@@ -1,5 +1,5 @@
 import React from "react";
-import { BreedsTable, SpinnerLoader } from "../components";
+import { BreedsTable, ErrorMessage, SpinnerLoader } from "../components";
 import { useBreeds } from "../hooks";
 
 export function Breeds() {
@@ -9,7 +9,7 @@ export function Breeds() {
         return <SpinnerLoader />
     }
 
-    if (error) return <p>Error: {error}</p>;
+    if (error) return <ErrorMessage message={error} />;
 
     return (
         <main className="w-full max-w-7xl mx-auto py-6 px-3 md:px-6">

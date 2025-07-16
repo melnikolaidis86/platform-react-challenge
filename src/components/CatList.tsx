@@ -1,5 +1,5 @@
 import React from "react";
-import { SpinnerLoader, CatCard, CatDetailsModal } from "../components";
+import { SpinnerLoader, CatCard, CatDetailsModal, ErrorMessage } from "../components";
 import { useCats } from "../hooks";
 
 export function CatList() {
@@ -9,7 +9,7 @@ export function CatList() {
         return <SpinnerLoader/>
     }
 
-    if (error) return <p>Error: {error}</p>;
+    if (error) return <ErrorMessage message={error} />;
 
     return (
         <>

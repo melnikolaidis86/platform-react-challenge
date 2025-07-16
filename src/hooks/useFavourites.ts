@@ -9,6 +9,7 @@ export const useFavourites = (catId?: string) => {
     const dispatch = useDispatch<AppDispatch>();
     const favourites = useSelector((state: RootState) => state.favourites.favourites);
     const loading = useSelector((state: RootState) => state.favourites.loading);
+    const error = useSelector((state: RootState) => state.favourites.error);
     const favouriteLimitError = useSelector((state: RootState) => state.favourites.favouriteLimitError);
     const { userId } = useUserContext();
 
@@ -64,6 +65,7 @@ export const useFavourites = (catId?: string) => {
 
     return {
         loading,
+        error,
         animate,
         isFavourite,
         uniqueFavourites,
