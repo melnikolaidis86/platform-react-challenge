@@ -1,20 +1,7 @@
-import React, {useEffect} from "react";
-import { useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import React from "react";
 import { FavouritesList } from "../components/";
-import {resetCats} from "../features/cats";
-import type { AppDispatch } from "../app/store";
 
 export function Favourites() {
-    const dispatch = useDispatch<AppDispatch>();
-    const location = useLocation();
-
-    useEffect(() => {
-        // Clear cats when navigating to favourites view
-        if (location.pathname.startsWith("/favourites")) {
-            dispatch(resetCats());
-        }
-    }, [location.pathname, dispatch]);
 
     return (
         <main className="w-full max-w-7xl mx-auto py-6 px-3 md:px-6 min-h-[556px]">

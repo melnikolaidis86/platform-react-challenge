@@ -1,11 +1,16 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
-import { Favourite, FavouritesState } from "./types";
+import { RootState } from "../../app/store";
+import type { Favourite, FavouritesState } from "./types";
 import axios from 'axios';
+
+// This variable should match with the MAX_FAVOURITES
+const maxFavourites = Number.parseInt(process.env.REACT_APP_MAX_FAVOURITES ?? "10");
 
 const initialState: FavouritesState = {
     favourites: [],
     loading: false,
     error: null,
+    favouriteLimitError: null,
 }
 
 export const fetchFavourites = createAsyncThunk(
@@ -21,7 +26,15 @@ export const fetchFavourites = createAsyncThunk(
 
 export const addFavourite = createAsyncThunk(
     'favourites/addFavourite',
-    async ({ image_id, sub_id }: { image_id: string; sub_id: string | null }, { rejectWithValue }) => {
+    async ({ image_id, sub_id }: { image_id: string; sub_id: string | null }, { rejectWithValue, getState, dispatch }) => {
+        const state = getState() as RootState;
+        // Set a limit for favourites
+        const { favourites } = state.favourites;
+        if (favourites.length > (maxFavourites - 1)) {
+            dispatch(setFavouritesLimitReached(`I am sorry you have reached the maximum number of favourites you can save (${maxFavourites}). I am afraid you have to delete another kitty first.`));
+            return rejectWithValue('maximum number of favourites reached');
+        }
+
         try {
             const response = await axios.post("/api/favourites", { image_id, sub_id });
             return response.data;
@@ -46,7 +59,14 @@ export const removeFavourite = createAsyncThunk(
 const favouritesSlice = createSlice({
     name: 'favourites',
     initialState,
-    reducers: {},
+    reducers: {
+        setFavouritesLimitReached(state, action: PayloadAction<string>) {
+            state.favouriteLimitError = action.payload;
+        },
+        resetFavouritesLimitReached(state) {
+            state.favouriteLimitError = null;
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchFavourites.pending, (state) => {
@@ -74,4 +94,5 @@ const favouritesSlice = createSlice({
     }
 })
 
+export const { setFavouritesLimitReached, resetFavouritesLimitReached } = favouritesSlice.actions;
 export default favouritesSlice.reducer;

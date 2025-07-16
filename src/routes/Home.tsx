@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../app/store";
-import { useUser } from "../app/userContext";
+import { useUserContext } from "../app/userContext";
 import { fetchFavourites } from "../features/favourites";
 import { CatList } from "../components/";
 
 export function Home() {
     const dispatch = useDispatch<AppDispatch>();
-    const { userId } = useUser()
+    const { userId } = useUserContext()
 
     // We have to fetch favourites in order to check if any of images are already been in favourites
     useEffect(() => {

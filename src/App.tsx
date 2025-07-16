@@ -3,9 +3,12 @@ import { Home } from "./routes/Home";
 import { Breeds } from "./routes/Breeds";
 import { Favourites } from "./routes/Favourites";
 import { UserProvider } from "./app/userContext";
-import { Footer, Navbar } from "./components";
+import { Footer, Navbar, PopupMessage } from "./components";
+import { useFavourites } from "./hooks";
 
 function App() {
+    const { favouriteLimitError, resetFavouritesError } = useFavourites();
+
     return (
         <UserProvider>
             <Router>
@@ -16,6 +19,7 @@ function App() {
                     <Route path="/breeds" element={<Breeds/>}/>
                     <Route path="/favourites" element={<Favourites/>}/>
                 </Routes>
+                { favouriteLimitError && <PopupMessage message={favouriteLimitError} type="error" onClose={() => resetFavouritesError()} /> }
                 <Footer/>
             </Router>
         </UserProvider>

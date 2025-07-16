@@ -1,8 +1,11 @@
-import React, {useState} from "react";
-import { Link } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {Link, useLocation} from "react-router-dom";
 import { FaCat, FaPaw, FaHeart } from "react-icons/fa";
 import { HiMenu, HiX } from "react-icons/hi";
 import { NavLink } from "./NavLink";
+import { resetCats } from "../features/cats";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "../app/store";
 
 const FatCatIcon = FaCat as React.FC<React.SVGProps<SVGSVGElement>>;
 const FatPawIcon = FaPaw as React.FC<React.SVGProps<SVGSVGElement>>;
@@ -12,8 +15,19 @@ const HixIcon = HiX as React.FC<React.SVGProps<SVGSVGElement>>;
 
 export function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
+    const dispatch = useDispatch<AppDispatch>();
+    const location = useLocation();
 
     const toggleMenu = () => setIsOpen(!isOpen);
+
+    useEffect(() => {
+        // Clear cats on other views
+        if (location.pathname.startsWith("/favourites") ||
+            location.pathname.startsWith("/breeds")
+        ) {
+            dispatch(resetCats());
+        }
+    }, [location.pathname, dispatch]);
 
     return (
         <nav className="w-full bg-white border-b shadow-sm">

@@ -1,15 +1,16 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../app/store";
-import { addFavourite, fetchFavourites, removeFavourite } from "../features/favourites";
-import { useUser } from "../app/userContext";
+import { addFavourite, fetchFavourites, removeFavourite, resetFavouritesLimitReached } from "../features/favourites";
+import { useUserContext } from "../app/userContext";
 
 export const useFavourites = (catId?: string) => {
     const [animate, setAnimate] = useState(false);
     const dispatch = useDispatch<AppDispatch>();
     const favourites = useSelector((state: RootState) => state.favourites.favourites);
     const loading = useSelector((state: RootState) => state.favourites.loading);
-    const { userId } = useUser();
+    const favouriteLimitError = useSelector((state: RootState) => state.favourites.favouriteLimitError);
+    const { userId } = useUserContext();
 
     useEffect(() => {
         if (userId) {
@@ -31,7 +32,7 @@ export const useFavourites = (catId?: string) => {
 
     const isFavourite = useMemo(() => {
         return !!uniqueFavourites.find((element) => element.image_id === catId);
-    }, [favourites, catId]);
+    }, [uniqueFavourites, catId]);
 
     const toggleFavourite = async (e: React.MouseEvent) => {
         e.preventDefault();
@@ -57,11 +58,17 @@ export const useFavourites = (catId?: string) => {
         dispatch(fetchFavourites(userId!));
     };
 
+    const resetFavouritesError = () => {
+        dispatch(resetFavouritesLimitReached());
+    }
+
     return {
         loading,
         animate,
         isFavourite,
         uniqueFavourites,
+        favouriteLimitError,
+        resetFavouritesError,
         handleRemove,
         toggleFavourite,
     }

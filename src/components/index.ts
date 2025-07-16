@@ -9,4 +9,5 @@ export * from './Footer';
 export * from './Modal';
 export * from './NavBar';
 export * from './NavLink';
+export * from './PopupMessage';
 export * from './SpinnerLoader';

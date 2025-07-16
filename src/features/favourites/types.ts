@@ -12,4 +12,5 @@ export interface FavouritesState {
     favourites: Favourite[];
     loading: boolean;
     error: string | null;
+    favouriteLimitError: string | null;
 }
