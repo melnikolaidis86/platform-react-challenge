@@ -24,10 +24,12 @@ Built with the following technologies:
 
 ## 🛠 Getting Started
 
-1. Clone the repository
+### Steps for running the app in development mode
 
 ```bash
-git clone https://github.com/your-username/catlovers-app.git
+1. Clone the project
+
+git clone https://github.com/melnikolaidis86/catlover.git
 cd catlovers-app
 
 2. Install dependencies
@@ -49,9 +51,12 @@ cd server
 cp .env.example .env
 
 4.  You can get a free API key from:
-👉 https://developers.thecatapi.com/
+
+#👉 https://developers.thecatapi.com/
 
 5. Run the in development mode
+
+# In root folder
 npm run dev
 
 
